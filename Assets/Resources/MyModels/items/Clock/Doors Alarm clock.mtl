@@ -1,0 +1,108 @@
+newmtl Inner1Mtl
+Material Color
+Ka 0.339223 0.320382 0.259027
+Kd 0.339223 0.320382 0.259027
+Ks 0.226149 0.213588 0.172685 
+
+d 1
+
+Ns 255
+
+map_Ka Bells1_diff.png
+map_Kd Bells1_diff.png
+map_d Bells1_diff.png
+
+map_Bump Bells1_nmap.png
+
+map_Ns Bells1_spec.png
+
+newmtl Handlong1Mtl
+Material Color
+Ka 0.0315514 0.0231036 0.0209511
+Kd 0.0315514 0.0231036 0.0209511
+Ks 0.0210343 0.0154024 0.0139674 
+
+d 1
+
+Ns 255
+
+map_Ka Bells1_diff.png
+map_Kd Bells1_diff.png
+map_d Bells1_diff.png
+
+map_Bump Bells1_nmap.png
+
+map_Ns Bells1_spec.png
+
+newmtl Bells1Mtl
+Material Color
+Ka 0.271577 0.215764 0.12753
+Kd 0.271577 0.215764 0.12753
+Ks 0.181052 0.143843 0.0850198 
+
+d 1
+
+Ns 255
+
+map_Ka Bells1_diff.png
+map_Kd Bells1_diff.png
+map_d Bells1_diff.png
+
+map_Bump Bells1_nmap.png
+
+map_Ns Bells1_spec.png
+
+newmtl Clamp1Mtl
+Material Color
+Ka 0.113921 0.0962661 0.0869013
+Kd 0.113921 0.0962661 0.0869013
+Ks 0.0759473 0.0641774 0.0579342 
+
+d 1
+
+Ns 255
+
+map_Ka Bells1_diff.png
+map_Kd Bells1_diff.png
+map_d Bells1_diff.png
+
+map_Bump Bells1_nmap.png
+
+map_Ns Bells1_spec.png
+
+newmtl Crank1Mtl
+Material Color
+Ka 0.20836 0.180144 0.136099
+Kd 0.20836 0.180144 0.136099
+Ks 0.138906 0.120096 0.0907324 
+
+d 1
+
+Ns 255
+
+map_Ka Bells1_diff.png
+map_Kd Bells1_diff.png
+map_d Bells1_diff.png
+
+map_Bump Bells1_nmap.png
+
+map_Ns Bells1_spec.png
+
+newmtl Clock1Mtl
+Material Color
+Ka 0.0657539 0.0370285 0.0315514
+Kd 0.0657539 0.0370285 0.0315514
+Ks 0.0438359 0.0246857 0.0210343 
+
+d 1
+
+Ns 255
+
+map_Ka Bells1_diff.png
+map_Kd Bells1_diff.png
+map_d Bells1_diff.png
+
+map_Bump Bells1_nmap.png
+
+map_Ns Bells1_spec.png
+
