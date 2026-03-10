@@ -8,23 +8,28 @@ public class AChase : MonoBehaviour
     public bool isActive = true;
     public bool autoFindPlayer = true;
 
-    [Header("Detection & Catch")]
-    public float detectionRange = 10f;      // Only chase if player within this range
-    public float catchDistance = 1.5f;       // How close to trigger lose
+    [Header("Detection & Attack")]
+    public float detectionRange = 10f;
+    public float attackRange = 1.5f;
+    public float sanityDrainRate = 5f;          // Sanity points per second
 
-    [Header("Wall Detection (Optional)")]
+    [Header("Wall Detection")]
     public bool enableWallDetection = true;
     public LayerMask wallLayer = 1 << 0;
     public float wallCheckDistance = 1f;
 
-    [Header("Lose Condition")]
-    public WinLoose winLooseScript;
-    public TimerScript timerScript;
+    [Header("Spawn Protection (Optional)")]
+    public float initialGracePeriod = 0f;        // Seconds before it can drain sanity (0 = no grace)
 
-    private bool hasKilled = false;
+    [Header("References")]
+    public SanityManager sanityManager;
+
+    private float spawnTimer;
 
     void Start()
     {
+        spawnTimer = initialGracePeriod;
+
         if (autoFindPlayer && target == null)
         {
             GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -32,47 +37,55 @@ public class AChase : MonoBehaviour
                 target = player.transform;
         }
 
-        if (winLooseScript == null)
-            winLooseScript = FindObjectOfType<WinLoose>();
-        if (timerScript == null)
-            timerScript = FindObjectOfType<TimerScript>();
+        if (sanityManager == null)
+            sanityManager = FindObjectOfType<SanityManager>();
     }
 
     void Update()
     {
-        if (!isActive || target == null || hasKilled) return;
+        if (!isActive || target == null) return;
+
+        // Decrease spawn protection timer
+        if (spawnTimer > 0)
+        {
+            spawnTimer -= Time.deltaTime;
+            return; // Don't move or attack during grace period
+        }
 
         float distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
-        // If within catch distance, kill
-        if (distanceToPlayer <= catchDistance)
+        // If within attack range, drain sanity and stop moving
+        if (distanceToPlayer <= attackRange)
         {
-            TriggerLose();
+            DrainPlayerSanity();
             return;
         }
 
         // Only move if within detection range
         if (distanceToPlayer <= detectionRange)
         {
-            // Direction toward player (ignore vertical difference)
             Vector3 direction = (target.position - transform.position).normalized;
             direction.y = 0;
 
-            // Wall detection (optional)
             if (enableWallDetection && IsWallInFront(direction))
-                return; // Don't move if wall ahead
+                return;
 
-            // Move toward player
-            Vector3 move = direction * moveSpeed * Time.deltaTime;
-            transform.Translate(move, Space.World);
+            transform.Translate(direction * moveSpeed * Time.deltaTime, Space.World);
         }
-        // else: do nothing (idle)
+    }
+
+    void DrainPlayerSanity()
+    {
+        if (sanityManager != null)
+        {
+            sanityManager.DrainSanity(sanityDrainRate * Time.deltaTime);
+        }
     }
 
     bool IsWallInFront(Vector3 moveDirection)
     {
         RaycastHit hit;
-        Vector3 origin = transform.position + Vector3.up * 0.5f; // slightly above ground
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
         if (Physics.Raycast(origin, moveDirection, out hit, wallCheckDistance, wallLayer))
         {
             Debug.DrawRay(origin, moveDirection * hit.distance, Color.red);
@@ -83,21 +96,5 @@ public class AChase : MonoBehaviour
             Debug.DrawRay(origin, moveDirection * wallCheckDistance, Color.green);
             return false;
         }
-    }
-
-    void TriggerLose()
-    {
-        if (hasKilled) return;
-        hasKilled = true;
-
-        if (timerScript != null)
-            timerScript.StopTimer();
-
-        if (winLooseScript != null)
-            winLooseScript.LoseLevel("Killed by Stalker Anomaly.");
-        else
-            Debug.LogError("WinLoose script missing!");
-
-        isActive = false; // Stop chasing
     }
 }
