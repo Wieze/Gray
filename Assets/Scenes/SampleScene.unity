@@ -1485,6 +1485,7 @@ MonoBehaviour:
   sanitySlider: {fileID: 743191999}
   profile: {fileID: 11400000, guid: 15fce0ee9c0c0464687e7bfeb5bf02b0, type: 2}
   fullSanity: 100
+  drainRatePerSecond: 5
   difficulty: 1
   winLooseScript: {fileID: 707732520}
   timerScript: {fileID: 829970599}
@@ -2312,7 +2313,7 @@ MonoBehaviour:
     m_Bits: 8
   stopNaNPropagation: 1
   finalBlitToCameraTarget: 0
-  antialiasingMode: 0
+  antialiasingMode: 2
   temporalAntialiasing:
     jitterSpread: 0.75
     sharpness: 0.25
@@ -3066,7 +3067,7 @@ GameObject:
   - component: {fileID: 1867200791}
   - component: {fileID: 1867200790}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3340,12 +3341,12 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 705507995}
-  - {fileID: 1243282201}
-  - {fileID: 467350346}
-  - {fileID: 475984217}
   - {fileID: 1762320308}
-  - {fileID: 1867200793}
   - {fileID: 707732521}
+  - {fileID: 467350346}
+  - {fileID: 1243282201}
+  - {fileID: 475984217}
+  - {fileID: 1867200793}
   - {fileID: 1583143011}
   - {fileID: 1806844455}
   - {fileID: 1671941297}

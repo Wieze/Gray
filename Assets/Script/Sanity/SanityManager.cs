@@ -10,13 +10,16 @@ public class SanityManager : MonoBehaviour
     private Vignette vignette;
 
     public int fullSanity = 100;
-    public int difficulty = 1;              // Multiplier for sanity drain rate
+    public float drainRatePerSecond = 5f;        // How much sanity is lost per second when near an anomaly
+    public int difficulty = 1;                    // Multiplier for sanity drain rate (if needed)
 
     [Header("Lose Condition")]
     public WinLoose winLooseScript;
     public TimerScript timerScript;
 
     private bool isDead = false;
+    private int anomaliesNear = 0;                 // Number of anomaly triggers the player is inside
+    private Coroutine drainCoroutine;
 
     void Start()
     {
@@ -45,28 +48,58 @@ public class SanityManager : MonoBehaviour
                 vignette.intensity.value = 0f; // start with no vignette
             }
         }
-
-        // Start draining sanity
-        StartCoroutine(LoseSanity());
     }
 
-    IEnumerator LoseSanity()
+    void Update()
     {
-        while (sanitySlider != null && sanitySlider.value > 0)
+        // Continuously update vignette intensity based on current sanity
+        if (vignette != null && sanitySlider != null)
         {
-            // Drain sanity over time
-            sanitySlider.value -= 2f * difficulty * Time.deltaTime;
-
-            // Update vignette intensity based on sanity percent lost
             float percentLost = 1f - (sanitySlider.value / sanitySlider.maxValue);
-            if (vignette != null)
-                vignette.intensity.value = percentLost;
+            vignette.intensity.value = percentLost;
+        }
+    }
+
+    /// <summary>
+    /// Called when player enters an anomaly trigger.
+    /// </summary>
+    public void StartAnomalyDrain()
+    {
+        anomaliesNear++;
+        if (drainCoroutine == null && sanitySlider != null && sanitySlider.value > 0)
+        {
+            drainCoroutine = StartCoroutine(DrainSanityNearAnomaly());
+        }
+    }
+
+    /// <summary>
+    /// Called when player exits an anomaly trigger.
+    /// </summary>
+    public void StopAnomalyDrain()
+    {
+        if (anomaliesNear > 0)
+            anomaliesNear--;
+
+        if (anomaliesNear == 0 && drainCoroutine != null)
+        {
+            StopCoroutine(drainCoroutine);
+            drainCoroutine = null;
+        }
+    }
+
+    private IEnumerator DrainSanityNearAnomaly()
+    {
+        // Continue draining as long as the player is inside at least one anomaly and sanity > 0
+        while (anomaliesNear > 0 && sanitySlider != null && sanitySlider.value > 0)
+        {
+            // Drain sanity over time (multiplied by difficulty if desired)
+            sanitySlider.value -= drainRatePerSecond * difficulty * Time.deltaTime;
 
             yield return null;
         }
 
         // Sanity reached zero – trigger lose condition
-        if (!isDead)
+        if (sanitySlider != null && sanitySlider.value <= 0 && !isDead)
         {
             isDead = true;
 
@@ -80,9 +113,11 @@ public class SanityManager : MonoBehaviour
             else
                 Debug.LogError("WinLoose script missing! Player went insane but no lose screen.");
         }
+
+        drainCoroutine = null;
     }
 
-    // Public methods to modify sanity externally
+    // Public methods to modify sanity externally (can be used for sanity pickups, etc.)
     public void AddSanity(float amount)
     {
         if (sanitySlider != null)
@@ -97,6 +132,7 @@ public class SanityManager : MonoBehaviour
 
     public void AffectSanity(float value)
     {
-        sanitySlider.value += value;
+        if (sanitySlider != null)
+            sanitySlider.value += value;
     }
 }
