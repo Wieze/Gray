@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class AChase : MonoBehaviour
 {
@@ -25,6 +26,9 @@ public class AChase : MonoBehaviour
     public SanityManager sanityManager;
 
     private float spawnTimer;
+
+    private IObjectPool<AChase> aChasePool;
+    
 
     void Start()
     {
