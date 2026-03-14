@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -7,31 +5,54 @@ public class Spawner : MonoBehaviour
 {
     [Header("Spawn Settings")]
     [SerializeField] private Transform[] spawnPoints;       // Possible spawn locations
-    [SerializeField] private float timeBetweenSpawns = 5f;  // Time between spawns
-    private float timeSinceLastSpawn;                        // Fixed typo
 
     [Header("Anomaly Prefab")]
     [SerializeField] private AChase aChasePrefab;           // Prefab for the chasing anomaly
+
+    [Header("Stability Reference")]
+    [SerializeField] private StabilityManager stabilityManager; // Reference to StabilityManager
 
     // Object pool for AChase instances
     private IObjectPool<AChase> aChasePool;
 
     void Awake()
     {
-        // Initialize the object pool with creation, get, and release actions
+        // Initialize the object pool
         aChasePool = new ObjectPool<AChase>(
-            CreateAChase,       // Method to create a new anomaly
-            OnGetAChase,        // Method called when taking from pool
-            OnReleaseAChase,    // Method called when returning to pool
-            maxSize: 10         // Optional: limit the pool size (adjust as needed)
+            CreateAChase,       // Create new instance when pool is empty
+            OnGetAChase,        // Called when taking from pool
+            OnReleaseAChase,    // Called when returning to pool
+            maxSize: 10         // Adjust as needed
         );
+    }
+
+    void Start()
+    {
+        // Subscribe to the stability cycle event
+        if (stabilityManager != null)
+        {
+            stabilityManager.OnStabilityCycleCompleted += SpawnAnomaly;
+        }
+        else
+        {
+            Debug.LogError("StabilityManager reference not set in Spawner!");
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Unsubscribe to avoid memory leaks
+        if (stabilityManager != null)
+        {
+            stabilityManager.OnStabilityCycleCompleted -= SpawnAnomaly;
+        }
     }
 
     // Creates a brand new anomaly instance (only called when pool is empty)
     private AChase CreateAChase()
     {
         AChase anomaly = Instantiate(aChasePrefab);
-        // Optionally, set the pool reference on the anomaly so it can release itself
+        // Optionally, you can pass the pool reference to the anomaly for self‑release
         // anomaly.SetPool(aChasePool);
         return anomaly;
     }
@@ -60,15 +81,10 @@ public class Spawner : MonoBehaviour
         // anomaly.OnDespawned();
     }
 
-    void Update()
+    // Event handler – spawns an anomaly when stability reaches 100%
+    private void SpawnAnomaly()
     {
-        // Spawn a new anomaly when the timer reaches the interval
-        if (Time.time > timeSinceLastSpawn)
-        {
-            // Get an instance from the pool (this triggers OnGetAChase)
-            aChasePool.Get();
-            timeSinceLastSpawn = Time.time + timeBetweenSpawns;
-        }
+        aChasePool.Get();
     }
 
     // Optional: Public method to manually release an anomaly back to the pool

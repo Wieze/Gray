@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class DoorSwitch : MonoBehaviour
 {
-    public Transform door;  
-    public float openAngle = 3f;
+    public Transform door;       // Door_Hinge
+    public Transform player;     // Main Camera
+    public float interactDistance = 3f;
+
+    public float openAngle = 90f;
     public float speed = 3f;
 
     private bool isOpen = false;
@@ -13,17 +16,23 @@ public class DoorSwitch : MonoBehaviour
     void Start()
     {
         closedRotation = door.rotation;
-
         openRotation = Quaternion.Euler(0, openAngle, 0) * closedRotation;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        float distance = Vector3.Distance(player.position, transform.position);
+
+        // Only allow interaction if near
+        if (distance <= interactDistance)
         {
-            isOpen = !isOpen;
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                isOpen = !isOpen;
+            }
         }
 
+        // Door animation
         if (isOpen)
         {
             door.rotation = Quaternion.Slerp(door.rotation, openRotation, Time.deltaTime * speed);

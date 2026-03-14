@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Events;
 
 public class SanityManager : MonoBehaviour
 {
@@ -13,9 +14,22 @@ public class SanityManager : MonoBehaviour
     public float drainRatePerSecond = 5f;        // How much sanity is lost per second when near an anomaly
     public int difficulty = 1;                    // Multiplier for sanity drain rate (if needed)
 
+    [Header("Alarm Drain")]
+    public float alarmDrainRate = 2f;             // Sanity lost per second when alarm is on
+    private bool alarmActive = false;
+    private Coroutine alarmCoroutine;
+
+    [Header("Light Drain")]
+    public float lightDrainRate = 1f;              // Sanity lost per second when lights are off
+    private bool lightOffActive = false;
+    private Coroutine lightCoroutine;
+
     [Header("Lose Condition")]
     public WinLoose winLooseScript;
     public TimerScript timerScript;
+
+    [Header("Events")]
+    public UnityEvent onInsane;                   // Alternative to direct WinLoose call (optional)
 
     private bool isDead = false;
     private int anomaliesNear = 0;                 // Number of anomaly triggers the player is inside
@@ -58,6 +72,12 @@ public class SanityManager : MonoBehaviour
             float percentLost = 1f - (sanitySlider.value / sanitySlider.maxValue);
             vignette.intensity.value = percentLost;
         }
+
+        // Safety check: if sanity reached zero (e.g., from external drains), trigger lose condition
+        if (!isDead && sanitySlider != null && sanitySlider.value <= 0)
+        {
+            TriggerLose();
+        }
     }
 
     /// <summary>
@@ -94,27 +114,103 @@ public class SanityManager : MonoBehaviour
         {
             // Drain sanity over time (multiplied by difficulty if desired)
             sanitySlider.value -= drainRatePerSecond * difficulty * Time.deltaTime;
-
             yield return null;
         }
 
         // Sanity reached zero – trigger lose condition
         if (sanitySlider != null && sanitySlider.value <= 0 && !isDead)
         {
-            isDead = true;
-
-            // Stop the timer
-            if (timerScript != null)
-                timerScript.StopTimer();
-
-            // Trigger lose screen with custom message
-            if (winLooseScript != null)
-                winLooseScript.LoseLevel("You went insane...");
-            else
-                Debug.LogError("WinLoose script missing! Player went insane but no lose screen.");
+            TriggerLose();
         }
 
         drainCoroutine = null;
+    }
+
+    /// <summary>
+    /// Called when alarm is turned on.
+    /// </summary>
+    public void StartAlarmDrain()
+    {
+        if (alarmActive) return;
+        alarmActive = true;
+        if (alarmCoroutine == null)
+            alarmCoroutine = StartCoroutine(AlarmDrainCoroutine());
+    }
+
+    /// <summary>
+    /// Called when alarm is turned off.
+    /// </summary>
+    public void StopAlarmDrain()
+    {
+        alarmActive = false;
+        if (alarmCoroutine != null)
+        {
+            StopCoroutine(alarmCoroutine);
+            alarmCoroutine = null;
+        }
+    }
+
+    private IEnumerator AlarmDrainCoroutine()
+    {
+        while (alarmActive && sanitySlider != null && sanitySlider.value > 0)
+        {
+            sanitySlider.value -= alarmDrainRate * Time.deltaTime;
+            yield return null;
+        }
+        alarmCoroutine = null;
+        // If sanity hits zero, Update safety check will handle lose condition.
+    }
+
+    /// <summary>
+    /// Called when lights are turned off.
+    /// </summary>
+    public void StartLightDrain()
+    {
+        if (lightOffActive) return;
+        lightOffActive = true;
+        if (lightCoroutine == null)
+            lightCoroutine = StartCoroutine(LightDrainCoroutine());
+    }
+
+    /// <summary>
+    /// Called when lights are turned on.
+    /// </summary>
+    public void StopLightDrain()
+    {
+        lightOffActive = false;
+        if (lightCoroutine != null)
+        {
+            StopCoroutine(lightCoroutine);
+            lightCoroutine = null;
+        }
+    }
+
+    private IEnumerator LightDrainCoroutine()
+    {
+        while (lightOffActive && sanitySlider != null && sanitySlider.value > 0)
+        {
+            sanitySlider.value -= lightDrainRate * Time.deltaTime;
+            yield return null;
+        }
+        lightCoroutine = null;
+    }
+
+    private void TriggerLose()
+    {
+        isDead = true;
+
+        // Stop the timer
+        if (timerScript != null)
+            timerScript.StopTimer();
+
+        // Option 1: Direct WinLoose call
+        if (winLooseScript != null)
+            winLooseScript.LoseLevel("You went insane...");
+        else
+            Debug.LogError("WinLoose script missing! Player went insane but no lose screen.");
+
+        // Option 2: Invoke UnityEvent (you can hook this up in Inspector instead of direct call)
+        onInsane.Invoke();
     }
 
     // Public methods to modify sanity externally (can be used for sanity pickups, etc.)
