@@ -231,4 +231,17 @@ public class SanityManager : MonoBehaviour
         if (sanitySlider != null)
             sanitySlider.value += value;
     }
+
+
+    void OnApplicationQuit()
+    {
+        if (profile != null)
+        {
+            profile.TryGetSettings(out vignette);
+            if (vignette != null)
+            {
+                vignette.intensity.value = 0f; // start with no vignette
+            }
+        }
+    }
 }
