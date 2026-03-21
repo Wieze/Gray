@@ -5,8 +5,7 @@ public class LightSwitch : MonoBehaviour
     public Light bulbLight;
     public Transform player;
     public float interactDistance = 3f;
-    public SanityManager sanityManager;
-    public StabilityManager stabilityManager;
+    public SanityStabilityManager sanityStabilityManager;   // Reference to combined manager
 
     private bool wantedState = false;          // Player's desired state (true = on, false = off)
     private bool lastLightState = false;        // For sanity drain (actual light on/off)
@@ -44,9 +43,9 @@ public class LightSwitch : MonoBehaviour
         if (currentLightState != lastLightState)
         {
             if (currentLightState) // Light turned on
-                sanityManager?.StopLightDrain();
+                sanityStabilityManager?.StopLightDrain();
             else                   // Light turned off
-                sanityManager?.StartLightDrain();
+                sanityStabilityManager?.StartLightDrain();
 
             lastLightState = currentLightState;
         }
@@ -56,9 +55,9 @@ public class LightSwitch : MonoBehaviour
         if (currentIgnoredState != lastIgnoredState)
         {
             if (currentIgnoredState)
-                stabilityManager?.AddIgnoredLight();
+                sanityStabilityManager?.AddIgnoredLight();
             else
-                stabilityManager?.RemoveIgnoredLight();
+                sanityStabilityManager?.RemoveIgnoredLight();
 
             lastIgnoredState = currentIgnoredState;
         }

@@ -5,8 +5,7 @@ public class AlarmSwitch : MonoBehaviour
     public AudioSource alarmSound;
     public Transform player;
     public float interactDistance = 3f;
-    public SanityManager sanityManager;
-    public StabilityManager stabilityManager;   // <-- Added
+    public SanityStabilityManager sanityStabilityManager;   // Reference to combined manager
 
     private bool isPlaying = false;
     private bool lastIgnoredState = false;
@@ -40,9 +39,9 @@ public class AlarmSwitch : MonoBehaviour
             alarmSound.Stop();
             isPlaying = false;
 
-            // Sanity drain stop
-            if (sanityManager != null)
-                sanityManager.StopAlarmDrain();
+            // Stop sanity drain
+            if (sanityStabilityManager != null)
+                sanityStabilityManager.StopAlarmDrain();
 
             // Stability ignored state will be updated below automatically
         }
@@ -54,9 +53,9 @@ public class AlarmSwitch : MonoBehaviour
         if (currentIgnoredState != lastIgnoredState)
         {
             if (currentIgnoredState)
-                stabilityManager?.AddIgnoredAlarm();
+                sanityStabilityManager?.AddIgnoredAlarm();
             else
-                stabilityManager?.RemoveIgnoredAlarm();
+                sanityStabilityManager?.RemoveIgnoredAlarm();
 
             lastIgnoredState = currentIgnoredState;
         }
@@ -69,14 +68,14 @@ public class AlarmSwitch : MonoBehaviour
         if (isPlaying)
         {
             alarmSound.Play();
-            if (sanityManager != null)
-                sanityManager.StartAlarmDrain();
+            if (sanityStabilityManager != null)
+                sanityStabilityManager.StartAlarmDrain();
         }
         else
         {
             alarmSound.Stop();
-            if (sanityManager != null)
-                sanityManager.StopAlarmDrain();
+            if (sanityStabilityManager != null)
+                sanityStabilityManager.StopAlarmDrain();
         }
     }
 }

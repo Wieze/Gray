@@ -1,0 +1,26 @@
+.label-button {
+    background-color: rgba(56, 56, 56, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    -unity-font: url("project://database/Assets/TextMesh%20Pro/Examples%20&%20Extras/Fonts/Roboto-Bold.ttf?fileID=12800000&guid=4beb055f07aaff244873dec698d0363e&type=3#Roboto-Bold");
+    -unity-font-style: bold;
+    border-left-color: rgba(56, 56, 56, 0);
+    border-right-color: rgba(56, 56, 56, 0);
+    border-top-color: rgba(56, 56, 56, 0);
+    border-bottom-color: rgba(56, 56, 56, 0);
+    -unity-text-align: upper-left;
+    padding-left: 30%;
+    height: 20%;
+    -unity-font-definition: initial;
+    -unity-text-outline-color: rgba(255, 255, 255, 0);
+}
+
+.label-button:hover {
+    -unity-text-outline-color: rgba(71, 80, 72, 0);
+    color: rgb(71, 80, 72);
+}
+
+.label-button:active {
+    color: rgb(255, 255, 255);
+}

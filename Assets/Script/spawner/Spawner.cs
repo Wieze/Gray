@@ -10,7 +10,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private AChase aChasePrefab;           // Prefab for the chasing anomaly
 
     [Header("Stability Reference")]
-    [SerializeField] private StabilityManager stabilityManager; // Reference to StabilityManager
+    [SerializeField] private SanityStabilityManager sanityStabilityManager; // Reference to combined manager
 
     // Object pool for AChase instances
     private IObjectPool<AChase> aChasePool;
@@ -29,22 +29,22 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         // Subscribe to the stability cycle event
-        if (stabilityManager != null)
+        if (sanityStabilityManager != null)
         {
-            stabilityManager.OnStabilityCycleCompleted += SpawnAnomaly;
+            sanityStabilityManager.OnStabilityCycleCompleted += SpawnAnomaly;
         }
         else
         {
-            Debug.LogError("StabilityManager reference not set in Spawner!");
+            Debug.LogError("SanityStabilityManager reference not set in Spawner!");
         }
     }
 
     void OnDestroy()
     {
         // Unsubscribe to avoid memory leaks
-        if (stabilityManager != null)
+        if (sanityStabilityManager != null)
         {
-            stabilityManager.OnStabilityCycleCompleted -= SpawnAnomaly;
+            sanityStabilityManager.OnStabilityCycleCompleted -= SpawnAnomaly;
         }
     }
 
