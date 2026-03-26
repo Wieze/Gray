@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CCTVSystem : MonoBehaviour
 {
@@ -9,10 +9,24 @@ public class CCTVSystem : MonoBehaviour
     public float interactDistance = 3f;
 
     private bool usingComputer = false;
-    private int currentCamera = 0;
+
+    private SystemBreak systemBreak;
+
+    void Start()
+    {
+        systemBreak = GetComponent<SystemBreak>();
+    }
 
     void Update()
     {
+        // 🔴 Broken → force exit
+        if (systemBreak != null && systemBreak.isBroken)
+        {
+            if (usingComputer)
+                ExitCCTV();
+            return;
+        }
+
         float distance = Vector3.Distance(player.position, transform.position);
 
         if (!Generator.powerOn)
@@ -35,23 +49,16 @@ public class CCTVSystem : MonoBehaviour
 
         if (usingComputer)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                SwitchCamera(0);
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-                SwitchCamera(1);
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-                SwitchCamera(2);
+            if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchCamera(0);
+            if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchCamera(1);
+            if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchCamera(2);
         }
     }
 
     void EnterCCTV()
     {
         usingComputer = true;
-
         playerCamera.enabled = false;
-
         SwitchCamera(0);
     }
 
@@ -68,11 +75,8 @@ public class CCTVSystem : MonoBehaviour
     void SwitchCamera(int index)
     {
         for (int i = 0; i < cctvCameras.Length; i++)
-        {
             cctvCameras[i].enabled = false;
-        }
 
         cctvCameras[index].enabled = true;
-        currentCamera = index;
     }
 }

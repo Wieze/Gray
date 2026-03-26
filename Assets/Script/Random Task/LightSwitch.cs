@@ -1,57 +1,63 @@
 using UnityEngine;
+using System.Collections;
 
 public class LightSwitch : MonoBehaviour
 {
     public Light bulbLight;
+
     public Transform player;
     public float interactDistance = 3f;
-    public SanityStabilityManager sanityStabilityManager;   // Reference to combined manager
 
-    private bool wantedState = false;          // Player's desired state (true = on, false = off)
-    private bool lastLightState = false;        // For sanity drain (actual light on/off)
-    private bool lastIgnoredState = false;      // For stability (ignored task condition)
+    public SanityStabilityManager sanityStabilityManager;
+
+    private bool isOn = true;
+    private bool lastIgnoredState = false;
+    private bool isFlickering = false;
+
+    private SystemBreak systemBreak;
 
     void Start()
     {
-        // Initialise states based on current conditions
-        lastLightState = bulbLight.enabled;
-        lastIgnoredState = Generator.powerOn && !wantedState;
+        systemBreak = GetComponent<SystemBreak>();
+        lastIgnoredState = Generator.powerOn && !isOn;
     }
 
     void Update()
     {
+        // 🔴 If broken → light OFF
+        if (systemBreak != null && systemBreak.isBroken)
+        {
+            bulbLight.enabled = false;
+            isOn = false;
+            return;
+        }
+
         float distance = Vector3.Distance(player.position, transform.position);
 
-        if (distance <= interactDistance && Input.GetKeyDown(KeyCode.E))
+        if (distance <= interactDistance)
         {
-            // Player toggles the switch (only if power is on – otherwise the light can't change)
-            if (Generator.powerOn)
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                wantedState = !wantedState;
-            }
-            else
-            {
-                Debug.Log("No power – cannot toggle light.");
+                if (!Generator.powerOn)
+                {
+                    Debug.Log("No electricity. Light won't work.");
+                    return;
+                }
+
+                ToggleLight();
             }
         }
 
-        // Determine actual light state (power AND wanted)
-        bool currentLightState = Generator.powerOn && wantedState;
-        bulbLight.enabled = currentLightState;
-
-        // --- Sanity drain (based on actual light on/off) ---
-        if (currentLightState != lastLightState)
+        // ⚡ Generator OFF → force OFF
+        if (!Generator.powerOn && bulbLight.enabled)
         {
-            if (currentLightState) // Light turned on
-                sanityStabilityManager?.StopLightDrain();
-            else                   // Light turned off
-                sanityStabilityManager?.StartLightDrain();
-
-            lastLightState = currentLightState;
+            bulbLight.enabled = false;
+            isOn = false;
         }
 
-        // --- Stability penalty (ignored task: power on + wantedState false) ---
-        bool currentIgnoredState = Generator.powerOn && !wantedState;
+        // 😈 SANITY SYSTEM (light ignored = OFF while power ON)
+        bool currentIgnoredState = Generator.powerOn && !isOn;
+
         if (currentIgnoredState != lastIgnoredState)
         {
             if (currentIgnoredState)
@@ -61,5 +67,34 @@ public class LightSwitch : MonoBehaviour
 
             lastIgnoredState = currentIgnoredState;
         }
+    }
+
+    void ToggleLight()
+    {
+        isOn = !isOn;
+        bulbLight.enabled = isOn;
+    }
+
+    // 😈 FLICKER BEFORE BREAK
+    public void FlickerEffect()
+    {
+        if (!isFlickering)
+            StartCoroutine(Flicker());
+    }
+
+    IEnumerator Flicker()
+    {
+        isFlickering = true;
+
+        for (int i = 0; i < 10; i++)
+        {
+            bulbLight.enabled = !bulbLight.enabled;
+            yield return new WaitForSeconds(Random.Range(0.05f, 0.2f));
+        }
+
+        bulbLight.enabled = false;
+        isOn = false;
+
+        isFlickering = false;
     }
 }

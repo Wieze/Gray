@@ -1,22 +1,35 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class AlarmSwitch : MonoBehaviour
 {
     public AudioSource alarmSound;
     public Transform player;
     public float interactDistance = 3f;
-    public SanityStabilityManager sanityStabilityManager;   // Reference to combined manager
+    public SanityStabilityManager sanityStabilityManager;
 
     private bool isPlaying = false;
     private bool lastIgnoredState = false;
 
+    private SystemBreak systemBreak;
+
     void Start()
     {
+        systemBreak = GetComponent<SystemBreak>();
         lastIgnoredState = Generator.powerOn && isPlaying;
     }
 
     void Update()
     {
+        // 🔴 If broken → stop everything
+        if (systemBreak != null && systemBreak.isBroken)
+        {
+            if (alarmSound.isPlaying)
+                alarmSound.Stop();
+
+            isPlaying = false;
+            return;
+        }
+
         float distance = Vector3.Distance(player.position, transform.position);
 
         if (distance <= interactDistance)
@@ -33,23 +46,17 @@ public class AlarmSwitch : MonoBehaviour
             }
         }
 
-        // If power goes off while alarm is playing, stop it and update states
+        // ⚡ Power OFF
         if (!Generator.powerOn && alarmSound.isPlaying)
         {
             alarmSound.Stop();
             isPlaying = false;
 
-            // Stop sanity drain
-            if (sanityStabilityManager != null)
-                sanityStabilityManager.StopAlarmDrain();
-
-            // Stability ignored state will be updated below automatically
+            sanityStabilityManager?.StopAlarmDrain();
         }
 
-        // Determine if this alarm is currently an "ignored task" (on due to player choice)
         bool currentIgnoredState = Generator.powerOn && isPlaying;
 
-        // Check if ignored state changed
         if (currentIgnoredState != lastIgnoredState)
         {
             if (currentIgnoredState)
@@ -68,14 +75,21 @@ public class AlarmSwitch : MonoBehaviour
         if (isPlaying)
         {
             alarmSound.Play();
-            if (sanityStabilityManager != null)
-                sanityStabilityManager.StartAlarmDrain();
+            sanityStabilityManager?.StartAlarmDrain();
         }
         else
         {
             alarmSound.Stop();
-            if (sanityStabilityManager != null)
-                sanityStabilityManager.StopAlarmDrain();
+            sanityStabilityManager?.StopAlarmDrain();
+        }
+    }
+
+    // 😈 GLITCH EFFECT
+    public void GlitchSound()
+    {
+        if (alarmSound != null)
+        {
+            alarmSound.pitch = Random.Range(0.5f, 1.5f);
         }
     }
 }
