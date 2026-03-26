@@ -1,0 +1,5 @@
+root 
+{
+    --maincolor: color: rgb(255, 255, 255);
+    --press: color: rgb(71, 80, 72);
+}

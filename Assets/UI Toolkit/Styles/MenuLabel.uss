@@ -13,7 +13,7 @@
     padding-left: 30%;
     height: 20%;
     -unity-font-definition: initial;
-    -unity-text-outline-color: rgba(255, 255, 255, 0);
+    -unity-text-outline-color: rgba(56, 56, 56, 0);
 }
 
 .label-button:hover {

@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1; flex-direction: column; height: 378px;">
+        <ui:VisualElement name="Sidebar" style="flex-grow: 1; width: 326px; height: 382px;">
+            <ui:ListView style="height: 211px; width: 296px; background-color: rgb(49, 49, 49); translate: 8% 10%;" />
+            <ui:Label tabindex="-1" text="Sanity" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Sanity" class="label-sub" style="padding-top: 0; padding-right: 0; padding-bottom: 0; font-size: 14px; translate: 8% 650%; padding-left: 0%;" />
+            <ui:Label tabindex="-1" text="Stability" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Stability" class="label-sub" style="font-size: 14px; padding-top: 0; padding-right: 0; padding-bottom: 0; translate: 8% 700%; padding-left: 0%;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="[TAB] Tasks   [C] Cameras   [E] Interact" parse-escape-sequences="true" display-tooltip-when-elided="true" class="label-sub" style="-unity-text-align: upper-center; font-size: 14px; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0%;" />
+    </ui:VisualElement>
+</ui:UXML>

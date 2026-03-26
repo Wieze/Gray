@@ -1,0 +1,8 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="SYSTEM FAILURE" parse-escape-sequences="true" display-tooltip-when-elided="true" name="SystemFailure" class="label-title" style="-unity-text-align: upper-center; padding-right: 0; padding-bottom: 0; padding-left: 0%; padding-top: 15%;" />
+        <ui:Label tabindex="-1" text="You Die!" parse-escape-sequences="true" display-tooltip-when-elided="true" name="You_Die" class="label-sub" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0%; -unity-text-align: upper-center;" />
+        <ui:Button text="Retry Shift" parse-escape-sequences="true" display-tooltip-when-elided="true" name="RetryShift" class="label-button" style="padding-left: 0%; padding-bottom: 0; padding-right: 0; padding-top: 4%; margin-left: 0; margin-bottom: 0; margin-right: 0; margin-top: 0; height: 64px; -unity-text-align: upper-center;" />
+        <ui:Button text="Main Menu" parse-escape-sequences="true" display-tooltip-when-elided="true" name="MainMenu" class="label-button" style="margin-top: 0; margin-right: 0; margin-bottom: 0; margin-left: 0; padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0%; height: 28px; -unity-text-align: upper-center;" />
+    </ui:VisualElement>
+</ui:UXML>

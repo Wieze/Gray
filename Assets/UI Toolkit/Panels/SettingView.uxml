@@ -1,0 +1,19 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/SettingToggle.uss?fileID=7433441132597879392&amp;guid=42d9b3eff8fa24a46bb02130b28ab41c&amp;type=3#SettingToggle" />
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/SettingDropdown.uss?fileID=7433441132597879392&amp;guid=b283fd231f279c346901043b77895f5d&amp;type=3#SettingDropdown" />
+    <Style src="project://database/Assets/UI%20Toolkit/Styles/SettingSlider.uss?fileID=7433441132597879392&amp;guid=20768433e8d5a8147abd49f35be501d5&amp;type=3#SettingSlider" />
+    <ui:VisualElement style="flex-grow: 1;">
+        <ui:GroupBox style="height: 396px; background-color: rgb(49, 49, 49); padding-top: 0; width: 582px; transform-origin: center; translate: 25% 25px;">
+            <ui:Label tabindex="-1" text="Settings" parse-escape-sequences="true" display-tooltip-when-elided="true" view-data-key="Settings" name="Title" class="label-title" style="align-items: center; -unity-text-align: upper-center; padding-left: 0%; padding-bottom: 0; padding-right: 0; padding-top: 0;" />
+            <ui:Label tabindex="-1" text="Audio" parse-escape-sequences="true" display-tooltip-when-elided="true" name="AudioSubText" class="label-sub" style="padding-top: 0; padding-right: 0; padding-bottom: 0;" />
+            <ui:Slider label="Master Volume" high-value="100" name="Master_Volume" class="label-slider" />
+            <ui:Slider label="SFX Volume" high-value="100" name="SFX_Volume" class="label-slider" />
+            <ui:Label tabindex="-1" text="Graphics" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Graphics" class="label-sub" style="padding-top: 0; padding-right: 0; padding-bottom: 0;" />
+            <ui:DropdownField label="Resolution" name="Resolution_Dropdown" class="label-dropdown" />
+            <ui:Toggle label="Fullscreen" name="Fullscreen" class="lable-toggle" style="padding-left: 10%; color: rgb(255, 255, 255); -unity-font-style: bold; -unity-font-definition: initial; -unity-font: url(&quot;project://database/Assets/TextMesh%20Pro/Examples%20&amp;%20Extras/Fonts/Roboto-Bold.ttf?fileID=12800000&amp;guid=4beb055f07aaff244873dec698d0363e&amp;type=3#Roboto-Bold&quot;);" />
+            <ui:Label tabindex="-1" text="Controls" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Controls" class="label-sub" style="padding-bottom: 0; padding-right: 0; padding-top: 0; font-size: 20px;" />
+            <ui:Slider label="Sensitivity" high-value="100" name="Sensitivity" class="label-slider" />
+            <ui:Button text="Back" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Back" class="label-button" style="flex-wrap: wrap; height: 34px; -unity-text-align: upper-left; padding-left: 10%; padding-top: 0; padding-right: 0; padding-bottom: 0;" />
+        </ui:GroupBox>
+    </ui:VisualElement>
+</ui:UXML>

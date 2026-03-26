@@ -1,0 +1,9 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Header" style="flex-grow: 1; height: 301px;">
+        <ui:Label tabindex="-1" text="CAM 03 – Dungeon Corridor" parse-escape-sequences="true" display-tooltip-when-elided="true" class="label-sub" style="padding-top: 3%; padding-right: 0; padding-bottom: 0; padding-left: 0%; font-size: 14px; translate: 5% 7%;" />
+        <ui:Label tabindex="-1" text="[               CAMERA FEED               ]" parse-escape-sequences="true" display-tooltip-when-elided="true" class="label-sub" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 0%; translate: 5% 0; font-size: 14px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="Footer" style="flex-grow: 1;">
+        <ui:Label tabindex="-1" text="[ESC] Exit Cameras                                                                                                        LEFT CLICK / RIGHT CLICK                                                                                                                                              TO MOVE CAM" parse-escape-sequences="true" display-tooltip-when-elided="true" class="label-sub" style="padding-top: 0; padding-right: 0; padding-bottom: 0; padding-left: 5%; font-size: 14px; translate: 0 100%;" />
+    </ui:VisualElement>
+</ui:UXML>

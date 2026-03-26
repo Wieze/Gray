@@ -1,18 +1,15 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/UI%20Toolkit/Styles/MenuButton.uss?fileID=7433441132597879392&amp;guid=f33ea163e263e964088853d175b90811&amp;type=3#MenuButton" />
-    <Style src="project://database/Assets/UI%20Toolkit/Styles/MenuLabel.uss?fileID=7433441132597879392&amp;guid=0b97c06a7c9438c448c6a3b09ee1a64d&amp;type=3#MenuLabel" />
-    <Style src="project://database/Assets/UI%20Toolkit/Styles/MenuFooter.uss?fileID=7433441132597879392&amp;guid=090bf777becea3d46b61e00f79e24b11&amp;type=3#MenuFooter" />
     <ui:VisualElement name="sidebar" style="flex-grow: 1; width: 40%; height: 301px;">
         <ui:Label tabindex="-1" text="GRAY JOB" parse-escape-sequences="true" display-tooltip-when-elided="true" class="label-title" style="font-size: 55px; height: 80px; -unity-text-align: middle-left; padding-top: 10%; width: 321px;" />
         <ui:Label tabindex="-1" text="Night Security Terminal v1.7" parse-escape-sequences="true" display-tooltip-when-elided="true" class="label-sub" style="font-size: 25px; width: 409px; height: 80px;" />
         <ui:VisualElement name="buttons" style="flex-grow: 1; height: 234px; width: 388px;">
-            <ui:Button text="Start Shift" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Start_Shift" class="label-button" />
+            <ui:Button text="Start Shift" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Start_Shift" class="label-button" style="-unity-text-outline-color: rgba(255, 255, 255, 0); -unity-background-image-tint-color: rgba(255, 255, 255, 0);" />
             <ui:Button text="Continue" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Continue" class="label-button" />
             <ui:Button text="Setting" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Setting" class="label-button" />
             <ui:Button text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Exit" class="label-button" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="Footer" style="flex-grow: 1; -unity-text-align: middle-center; height: 18px; width: 814px; white-space: nowrap;">
-        <ui:Label tabindex="-1" text="CAM 03&#10;Corridor&#10;2:47 AM&#10;[ STATIC ]" parse-escape-sequences="true" display-tooltip-when-elided="true" name="FooterText" class="label-footer" style="height: 69px; -unity-text-align: middle-center; white-space: nowrap; text-overflow: clip; width: 845px;" />
+        <ui:Label tabindex="-1" text="CAM 03&#10;Corridor&#10;2:47 AM&#10;[ STATIC ]" parse-escape-sequences="true" display-tooltip-when-elided="true" name="FooterText" class="label-footer" style="height: 69px; -unity-text-align: middle-right; white-space: nowrap; text-overflow: clip; width: 845px; padding-right: 10px;" />
     </ui:VisualElement>
 </ui:UXML>
