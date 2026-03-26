@@ -17,12 +17,9 @@ public class StabilityManager : MonoBehaviour
     public SanityManager sanityManager;
     public AnimationCurve sanityMultiplierCurve = AnimationCurve.EaseInOut(0f, 3f, 1f, 1f);
 
-    [Header("Game Integration (Optional)")]
+    [Header("Game Integration")]
     public WinLoose winLooseScript;
     public TimerScript timerScript;
-
-    [Header("Pause Handling")]
-    private bool isPaused = false;          // Prevents updates while paused
 
     public System.Action OnStabilityCycleCompleted;
 
@@ -30,6 +27,7 @@ public class StabilityManager : MonoBehaviour
     private Coroutine fillCoroutine;
     private int ignoredLights = 0;
     private int ignoredAlarms = 0;
+    private bool isPaused = false;   // Paused flag (set by View)
 
     void Start()
     {
@@ -52,14 +50,11 @@ public class StabilityManager : MonoBehaviour
     {
         while (isCycleActive)
         {
-            if (!isPaused && stabilitySlider != null)
+            // If paused, just wait without updating
+            if (!isPaused && stabilitySlider != null && sanityManager != null)
             {
-                float sanityMultiplier = 1f;
-                if (sanityManager != null && sanityManager.sanitySlider != null)
-                {
-                    float sanityPercent = sanityManager.sanitySlider.value / sanityManager.fullSanity;
-                    sanityMultiplier = sanityMultiplierCurve.Evaluate(sanityPercent);
-                }
+                float sanityPercent = sanityManager.sanitySlider.value / sanityManager.fullSanity;
+                float sanityMultiplier = sanityMultiplierCurve.Evaluate(sanityPercent);
 
                 float rawFillRate = baseFillRate 
                                   + (ignoredLights * lightOffPenalty) 
@@ -82,6 +77,7 @@ public class StabilityManager : MonoBehaviour
         fillCoroutine = null;
     }
 
+    // Public methods for tasks
     public void AddIgnoredLight() => ignoredLights++;
     public void RemoveIgnoredLight() { if (ignoredLights > 0) ignoredLights--; }
     public void AddIgnoredAlarm() => ignoredAlarms++;
@@ -116,7 +112,6 @@ public class StabilityManager : MonoBehaviour
         }
     }
 
-    // --- Pause handling ---
     public void PauseStability()
     {
         isPaused = true;

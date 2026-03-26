@@ -11,10 +11,8 @@ public class View : MonoBehaviour
     public UIDocument loseUI;        // GameOverMenu.uxml
 
     [Header("Additional GameObjects")]
-    public GameObject playerHUDObject;  // The visual HUD GameObject (e.g., "Player HUD (1)")
-
-    [Header("Game Managers")]
-    public StabilityManager stabilityManager; // Reference to the stability manager
+    public GameObject playerHUDObject;  // The Canvas GameObject (should have a Canvas component)
+    private Canvas playerHUDScreen;     // Cached Canvas component
 
     [Header("Scene Names")]
     public string mainMenuScene = "MainMenu";
@@ -25,14 +23,14 @@ public class View : MonoBehaviour
 
     void Start()
     {
+        // Cache the Canvas component (UI will be hidden by disabling it)
+        if (playerHUDObject != null)
+            playerHUDScreen = playerHUDObject.GetComponent<Canvas>();
+
         ShowMainUI();
         WirePauseButtons();
         WireWinButtons();
         WireLoseButtons();
-
-        // Auto‑find stability manager if not assigned
-        if (stabilityManager == null)
-            stabilityManager = FindObjectOfType<StabilityManager>();
     }
 
     void Update()
@@ -51,7 +49,6 @@ public class View : MonoBehaviour
         if (gameEnded) return;
         isPaused = true;
         Time.timeScale = 0f;
-        stabilityManager?.PauseStability(); // Notify stability manager
         ShowPauseUI();
     }
 
@@ -60,7 +57,6 @@ public class View : MonoBehaviour
         if (gameEnded) return;
         isPaused = false;
         Time.timeScale = 1f;
-        stabilityManager?.ResumeStability(); // Notify stability manager
         ShowMainUI();
     }
 
@@ -84,7 +80,7 @@ public class View : MonoBehaviour
     private void ShowMainUI()
     {
         SetActive(playerUI, true);
-        if (playerHUDObject != null) playerHUDObject.SetActive(true);
+        if (playerHUDScreen != null) playerHUDScreen.enabled = true;  // Enable Canvas (show HUD)
         SetActive(pauseUI, false);
         SetActive(winUI, false);
         SetActive(loseUI, false);
@@ -93,7 +89,7 @@ public class View : MonoBehaviour
     private void ShowPauseUI()
     {
         SetActive(playerUI, false);
-        if (playerHUDObject != null) playerHUDObject.SetActive(false);
+        if (playerHUDScreen != null) playerHUDScreen.enabled = false; // Disable Canvas (hide HUD)
         SetActive(pauseUI, true);
         SetActive(winUI, false);
         SetActive(loseUI, false);
@@ -102,7 +98,7 @@ public class View : MonoBehaviour
     private void ShowWinUI()
     {
         SetActive(playerUI, false);
-        if (playerHUDObject != null) playerHUDObject.SetActive(false);
+        if (playerHUDScreen != null) playerHUDScreen.enabled = false;
         SetActive(pauseUI, false);
         SetActive(winUI, true);
         SetActive(loseUI, false);
@@ -111,7 +107,7 @@ public class View : MonoBehaviour
     private void ShowLoseUI(string reason)
     {
         SetActive(playerUI, false);
-        if (playerHUDObject != null) playerHUDObject.SetActive(false);
+        if (playerHUDScreen != null) playerHUDScreen.enabled = false;
         SetActive(pauseUI, false);
         SetActive(winUI, false);
         SetActive(loseUI, true);
@@ -129,7 +125,7 @@ public class View : MonoBehaviour
         if (doc != null) doc.enabled = active;
     }
 
-    // --- Button wiring (one‑time setup) ---
+    // --- Button wiring (unchanged) ---
     private bool pauseWired = false;
     private void WirePauseButtons()
     {
