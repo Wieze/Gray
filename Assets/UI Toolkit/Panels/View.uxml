@@ -1,8 +1,10 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:Template name="PlayerUI" src="project://database/Assets/UI%20Toolkit/Panels/PlayerUI.uxml?fileID=9197481963319205126&amp;guid=e87d7515218574b42a2d68748c4089d4&amp;type=3#PlayerUI" />
     <ui:Template name="GameOverMenu" src="project://database/Assets/UI%20Toolkit/Panels/GameOverMenu.uxml?fileID=9197481963319205126&amp;guid=b85f7d7433752f74aa8849a14300ec82&amp;type=3#GameOverMenu" />
     <ui:Template name="SecuCamera" src="project://database/Assets/UI%20Toolkit/Panels/SecuCamera.uxml?fileID=9197481963319205126&amp;guid=cf16ca5e86be00048a50dfd11c46fb13&amp;type=3#SecuCamera" />
-    <ui:Instance template="PlayerUI" name="PlayerUI" style="flex-grow: 1;" />
+    <ui:Template name="Pause" src="project://database/Assets/UI%20Toolkit/Panels/Pause.uxml?fileID=9197481963319205126&amp;guid=191782a5912eeda4e99407808c73f87c&amp;type=3#Pause" />
+    <ui:Template name="ShiftComplete" src="project://database/Assets/UI%20Toolkit/Panels/ShiftComplete.uxml?fileID=9197481963319205126&amp;guid=31da98afef3afc743bf3cba7d580a6a5&amp;type=3#ShiftComplete" />
     <ui:Instance template="GameOverMenu" name="GameOverMenu" style="flex-grow: 1; display: none;" />
     <ui:Instance template="SecuCamera" name="SecuCamera" style="flex-grow: 1; display: none;" />
+    <ui:Instance template="Pause" name="Pause" style="flex-grow: 1; display: none;" />
+    <ui:Instance template="ShiftComplete" name="ShiftComplete" style="flex-grow: 1; display: none;" />
 </ui:UXML>

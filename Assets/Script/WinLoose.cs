@@ -1,39 +1,37 @@
 using UnityEngine;
-using UnityEngine.UI;   // For legacy Text, or TMPro for TextMeshPro
 
 public class WinLoose : MonoBehaviour
 {
-    public TimerScript timerScript;      // Reference to the timer
-    public GameObject winScreen;
-    public GameObject loseScreen;
-    public Text loseReasonText;           // Optional UI text to display reason
+    [Header("References")]
+    public TimerScript timerScript;
+    public View view;   // Drag the GameObject that has the View script here
+
+    private bool ended = false;
 
     public void WinLevel()
     {
+        if (ended) return;
+        ended = true;
+
         if (timerScript != null) timerScript.StopTimer();
-        if (winScreen != null) winScreen.SetActive(true);
-        Time.timeScale = 0f;
+        if (view != null) view.ShowWin();
+        else Debug.LogError("WinLoose: View not assigned!");
     }
 
     public void LoseLevel()
     {
-        LoseLevel("Killed by Stalker Anomaly."); // default message
+        LoseLevel("Killed by Stalker Anomaly.");
     }
 
     public void LoseLevel(string reason)
     {
+        if (ended) return;
+        ended = true;
+
         if (timerScript != null) timerScript.StopTimer();
-        if (loseScreen != null)
-        {
-            loseScreen.SetActive(true);
-            if (loseReasonText != null)
-                loseReasonText.text = reason;
-        }
+        if (view != null) view.ShowLose(reason);
+        else Debug.LogError("WinLoose: View not assigned!");
+
         Debug.Log(reason);
-        Time.timeScale = 0f;
-
-        
     }
-
-    
 }
