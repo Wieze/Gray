@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <ui:Image name="JumpscareImage" source="project://database/Assets/UI%20Toolkit/Ending/JumpscareImage.jpg?fileID=2800000&amp;guid=db11cfa80581641459e48322e270840f&amp;type=3#JumpscareImage" uv="0,0,1,1" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover;"/>
+    <ui:VisualElement name="Overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0);"/>
+    <ui:VisualElement name="TextContainer" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; justify-content: center; align-items: center; opacity: 0;">
+        <ui:Label name="FailedTitle" text="YOU FAILED" style="font-size: 72px; -unity-font-style: bold; color: rgb(255, 0, 0); -unity-text-align: center; margin-bottom: 30px;"/>
+        <ui:Label name="FailedMessage" text="Well, you didn&apos;t finish the tasks.\nThe facility remains unstable.\nThe anomaly still lurks in the shadows.\n\nMaybe next time..." style="font-size: 20px; color: rgb(200, 200, 200); -unity-text-align: center; white-space: normal; margin-bottom: 40px;"/>
+        <ui:VisualElement style="flex-direction: row; justify-content: center;">
+            <ui:Button name="RetryShift" text="RETRY SHIFT" style="width: 180px; height: 50px; background-color: rgb(76, 175, 80); border-radius: 25px; color: white; font-size: 16px; margin-right: 20px;"/>
+            <ui:Button name="MainMenu" text="MAIN MENU" style="width: 180px; height: 50px; background-color: rgb(244, 67, 54); border-radius: 25px; color: white; font-size: 16px;"/>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

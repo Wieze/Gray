@@ -1,0 +1,35 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement style="flex-grow: 1; background-color: rgba(0,0,0,0.95); justify-content: center; align-items: center;">
+        
+        <!-- Contract Document Panel -->
+        <ui:VisualElement name="ContractPanel" style="width: 700px; background-color: rgba(30,30,35,1); border-radius: 20px; padding: 40px; border-left-width: 8px; border-left-color: rgb(76,175,80);">
+            
+            <!-- Header Icon (Checkmark) -->
+            <ui:VisualElement style="width: 80px; height: 80px; background-color: rgb(76,175,80); border-radius: 40px; align-self: center; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <ui:Label text="✓" style="font-size: 50px; color: white; -unity-text-align: middle-center;"/>
+            </ui:VisualElement>
+            
+            <!-- Title (Changes based on option) -->
+            <ui:Label name="HappyTitle" text="CONTRACT COMPLETE" style="font-size: 42px; -unity-font-style: bold; color: rgb(76,175,80); -unity-text-align: center; margin-bottom: 30px;"/>
+            
+            <!-- Divider Line -->
+            <ui:VisualElement style="height: 2px; background-color: rgba(76,175,80,0.5); margin-bottom: 30px;"/>
+            
+            <!-- Message Lines -->
+            <ui:Label name="HappyMessage1" text="You have successfully completed your night shift." style="font-size: 20px; color: rgb(200,200,200); -unity-text-align: center; margin-bottom: 15px;"/>
+            <ui:Label name="HappyMessage2" text="All tasks were finished on time." style="font-size: 20px; color: rgb(200,200,200); -unity-text-align: center; margin-bottom: 15px;"/>
+            <ui:Label name="HappyMessage3" text="The facility remains stable and secure." style="font-size: 20px; color: rgb(200,200,200); -unity-text-align: center; margin-bottom: 30px;"/>
+            
+            <!-- Divider Line -->
+            <ui:VisualElement style="height: 1px; background-color: rgba(255,255,255,0.2); margin-bottom: 30px;"/>
+            
+            <!-- Footer / Signature -->
+            <ui:Label name="HappyFooter" text="NIGHT SECURITY DIVISION" style="font-size: 14px; color: rgb(150,150,150); -unity-text-align: center; margin-bottom: 30px;"/>
+            
+            <!-- Main Menu Button -->
+            <ui:Button name="MainMenu" text="MAIN MENU" style="width: 200px; height: 50px; align-self: center; background-color: rgb(76,175,80); border-radius: 8px; color: white; font-size: 18px;"/>
+            
+        </ui:VisualElement>
+        
+    </ui:VisualElement>
+</ui:UXML>
