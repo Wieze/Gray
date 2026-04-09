@@ -3,7 +3,10 @@ guid: 859dea12a6b211648b7438942a1f9893
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerCamera: {instanceID: 0}
+  - footstepSound: {fileID: 8300000, guid: 96bdea0d44ebdff43ae663e3f0e5287f, type: 3}
+  - externalAudioSource: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
